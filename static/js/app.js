@@ -32,8 +32,36 @@ d3.json("samples.json").then (data => {
         // selecting html tag
         var demographic_tag = d3.select("#sample-metadata");
         Object.entries(demographics).forEach((key) => {
-            demographic_tag.append("h5").text(key[0] + ":" + key[1]);
+            demographic_tag.append("selDataset").text(key[0] + ": " + key[1] + "\n");
 
         })
     });
 //};
+
+
+
+
+d3.json("samples.json").then((data)=>{
+    console.log(data.names)
+    // feed Subject ID no into dropdown menu
+    data.names.forEach((name)=>{
+        d3.select("#selDataset").append("option").text(name).property("value");
+
+    })
+})
+
+
+// // Step 2: event listener
+// d3.select("#selDataset").on("change", ()=>{
+//     var selected = d3.select("#selDataset").property("value");
+//     // 
+//     console.log(selected);
+//     // Step 3: switch statements
+//     switch(selected){
+//       case "dataset1":
+//         trace = {
+//           x: []
+//         }
+//     }
+//   });
+  
