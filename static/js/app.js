@@ -20,26 +20,35 @@ function input() {
 
 input();
 
-function selection(id) {
-    demoInfo(id);
-    getPlots(id);
+
+// optionChanged to link to index.html field
+function optionChanged(newSample) {
+    demoInfo(newSample);
+    getPlots(newSample);
+
     
 };
+
+
+
+
 
 
 
 // demographic info BOX
 function demoInfo(sample) {
     d3.json("samples.json").then((data)=> {
+        var metadata = data.metadata;
         // filter by id
-        var demographics = data.metadata.filter(x => x.id == sample)[0];
+        var resultArray = metadata.filter(x => x.id == sample);
+        var result = resultArray[0];
         // selecting html tag
-        var demographic_tag = d3.select("#sample-metadata");
+        var demo_tag = d3.select("#sample-metadata");
         // clear data
-        demographic_tag.html("")
+        demo_tag.html("")
             // appending data
-            Object.entries(demographics).forEach((key, value) => {
-            demographic_tag.append("h6").text(key + ": " + value);
+            Object.entries(result).forEach(([key, value]) => {
+            demo_tag.append("h6").text(key + ": " + value);
             });
     });
 };
@@ -65,55 +74,73 @@ function getPlots(sample) {
         // Variables to hold otu info
         var otu_ids = result.otu_ids;
         var otu_labels = result.otu_labels;
-        var sample_values = (result.sample_values.slice(0,11)).reverse();
+        var sample_values = (result.sample_values.slice(0,10)).reverse(); 
         console.log(otu_ids);
 
 
-        // 
+        // get top 10 map in desc order
         var top_otu_ids = (data.samples[0].otu_ids.slice(0,10)).reverse();
         var otu_id = top_otu_ids.map(x => "OTU "+ x);
         console.log(`OTU IDS: ${top_otu_ids}`)
-
 
 
         // BAR PLOT
         var trace = {
             x: sample_values,
             y: otu_id,
+            marker: {color: 'blue'},
             text: otu_labels,
             type: "bar",
             orientation: "h"
-          };
+        };
             
-          var bar_data = [trace];
-          var config = {responsive: true};
+        var bar_data = [trace];
+        var config = {responsive: true};
+        var barLayout = {
+            title: "Top 10 bacteria found",
+            yaxis: {
+                tickmode: "linear"
+            }
+        };
 
-        Plotly.newPlot("bar", bar_data, config);
+        Plotly.newPlot('bar', bar_data, barLayout, config);
 
-        ///////////////////////////////////////////////////////
+
 
         // BUBBLE CHART
         var trace = {
-        x: result.otu_ids,
-        y: result.sample_values,
-        mode: 'markers',
-        marker: {
-            size: result.sample_values,
-            color: result.otu_ids,
-            colorscale: 'Earth',
-        },
-        text: result.otu_labels
-    };
-       
-        var bubble_data = [trace];
-        var config = {responsive: true};
+            x: result.otu_ids,
+            y: result.sample_values,
+            mode: 'markers',
+            marker: {
+                size: result.sample_values,
+                color: result.otu_ids,
+                colorscale: 'Earth',
+                    },
+            text: result.otu_labels
+            };
+           
+            var bubble_data = [trace];
+            var config = {responsive: true};
+    
+            Plotly.newPlot('bubble', bubble_data, config);
 
-        Plotly.newPlot("bar", bubble_data, config);
 
-        
+
+        ////////  experimented with a pie chart...might be easier to read than the bubble chart?
+
+        var x = [{
+            values: sample_values,
+            labels: otu_id,
+            type: 'pie'
+        }];
+
+        Plotly.newPlot('pie', x);
 
 
     });
 };
+
+
 
 
