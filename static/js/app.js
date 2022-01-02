@@ -81,7 +81,7 @@ function getPlots(sample) {
         var trace = {
             x: sample_values,
             y: otu_id,
-            marker: {color: 'blue'},
+            marker: {color: 'dimgrey'},
             text: otu_labels,
             type: "bar",
             orientation: "h"
@@ -141,8 +141,24 @@ function getPlots(sample) {
             {
                 domain: { x: [0, 1], y: [0, 1] },
                 value: washingFreq,
-                title: { text: "Belly Button Washing Frequency" },
+                title: { text: "Belly Button Washing Frequency (per week)"},
+                gauge: {
+                    axis: {range: [0,9], tickwidth: 1},
+                    bar: {color: "dimgrey"},
+                    steps: [
+                        {range: [0,1], color: 'mintcream'},
+                        {range: [1,2], color: 'oldlace'},
+                        {range: [2,3], color: 'papayawhip'},
+                        {range: [3,4], color: 'moccasin'},
+                        {range: [4,5], color: 'peachpuff'},
+                        {range: [5,6], color: 'pink'},
+                        {range: [6,7], color: 'lightsalmon'},
+                        {range: [7,8], color: 'salmon'},
+                        {range: [8,9], color: 'lightcoral'},
+                    ]
+                },
                 type: "indicator",
+                color: "blue",
                 mode: "gauge+number"
             }
         ];
@@ -156,6 +172,7 @@ function getPlots(sample) {
     });
 };
 
-
-console.log(data.metadata)
-
+// lightgoldenrodyellow, lightgray, lightgrey,
+// lightgreen, lightpink, lightsalmon, lightseagreen,
+// lightskyblue, lightslategray, lightslategrey,
+// lightsteelblue, lightyellow,
