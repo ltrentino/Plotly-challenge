@@ -43,8 +43,7 @@ The dataset reveals that a small handful of microbial species (also called opera
 
 * Updated the chart whenever a new sample is selected.
 
-
-A screenshot of the interactive dashboard is shown below:
+## A screenshot of the completed assignment is shown below:
 
 ![hw](Images/screenshot.JPG)
 
