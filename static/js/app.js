@@ -31,10 +31,6 @@ function optionChanged(newSample) {
 
 
 
-
-
-
-
 // demographic info BOX
 function demoInfo(sample) {
     d3.json("samples.json").then((data)=> {
@@ -42,6 +38,7 @@ function demoInfo(sample) {
         // filter by id
         var resultArray = metadata.filter(x => x.id == sample);
         var result = resultArray[0];
+        console.log(result.wfreq)
         // selecting html tag
         var demo_tag = d3.select("#sample-metadata");
         // clear data
@@ -54,22 +51,18 @@ function demoInfo(sample) {
 };
 
 
-
 // CHARTS
 function getPlots(sample) {
     // Reading json file
 
     d3.json("samples.json").then (data => {
         console.log(data);  // names (153 subjects ids), metadata (153 rows with subjects ids info), samples (153 rows with nested otu's lists)
-        
         var samples = data.samples;
-        console.log(samples);
-        
         var resultArray = samples.filter(x=> x.id == sample);
 
         // first result in array
         var result = resultArray[0];
-        console.log(result)
+        // console.log(result)
         
         // Variables to hold otu info
         var otu_ids = result.otu_ids;
@@ -106,7 +99,6 @@ function getPlots(sample) {
         Plotly.newPlot('bar', bar_data, barLayout, config);
 
 
-
         // BUBBLE CHART
         var trace = {
             x: result.otu_ids,
@@ -126,7 +118,6 @@ function getPlots(sample) {
             Plotly.newPlot('bubble', bubble_data, config);
 
 
-
         ////////  experimented with a pie chart...might be easier to read than the bubble chart?
 
         var x = [{
@@ -138,9 +129,33 @@ function getPlots(sample) {
         Plotly.newPlot('pie', x);
 
 
+
+        //GAUGE
+        // access metadata washing frequency of the sample selected
+        var metadata= data.metadata;
+        var resultArray = metadata.filter(x => x.id == sample);
+        var result = resultArray[0];
+        var washingFreq = result.wfreq
+        console.log(washingFreq)
+        var data = [
+            {
+                domain: { x: [0, 1], y: [0, 1] },
+                value: washingFreq,
+                title: { text: "Belly Button Washing Frequency" },
+                type: "indicator",
+                mode: "gauge+number"
+            }
+        ];
+        
+        var layout = { width: 600, height: 500, margin: { t: 0, b: 0 } };
+        Plotly.newPlot('gauge', data, layout);
+
+    
+
+
     });
 };
 
 
-
+console.log(data.metadata)
 
