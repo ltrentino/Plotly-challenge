@@ -118,7 +118,7 @@ function getPlots(sample) {
             Plotly.newPlot('bubble', bubble_data, config);
 
 
-        ////////  experimented with a pie chart...might be easier to read than the bubble chart?
+        ////////  experimented with a pie chart...might be easier to read than the bubble chart
 
         var x = [{
             values: sample_values,
@@ -158,7 +158,6 @@ function getPlots(sample) {
                     ]
                 },
                 type: "indicator",
-                color: "blue",
                 mode: "gauge+number"
             }
         ];
@@ -172,7 +171,3 @@ function getPlots(sample) {
     });
 };
 
-// lightgoldenrodyellow, lightgray, lightgrey,
-// lightgreen, lightpink, lightsalmon, lightseagreen,
-// lightskyblue, lightslategray, lightslategrey,
-// lightsteelblue, lightyellow,
